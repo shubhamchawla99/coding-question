@@ -1,0 +1,43 @@
+day 2 - no. of provinces
+
+QL - https://www.codingninjas.com/studio/problems/find-the-number-of-states_1377943?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+code
+#include <bits/stdc++.h>
+using namespace std;
+void dfs(int node, vector<int> adjLs[], int vis[]) {
+        // mark the more as visited
+        vis[node] = 1; 
+        for(auto it: adjLs[node]) {
+            if(!vis[it]) {
+                dfs(it, adjLs, vis); 
+            }
+        }
+    }
+
+int findNumOfProvinces(vector<vector<int>>& roads, int n) {
+    // Write your code here.
+    int V = n ;
+    vector<int> adjLs[V]; 
+        for(int i = 0;i<V;i++) {
+            for(int j = 0;j<V;j++) {
+                if(roads[i][j] == 1 && i != j) {
+                    adjLs[i].push_back(j); 
+                    adjLs[j].push_back(i); 
+                }
+            }
+        }
+        int vis[n]; 
+        memset(vis,0,sizeof(vis));
+        int cnt = 0; 
+        for(int i = 0;i<V;i++) {
+            // if the node is not visited
+            if(!vis[i]) {
+                // counter to count the number of provinces 
+                cnt++;
+               dfs(i, adjLs, vis); 
+            }
+        }
+        return cnt;
+} ;
+        

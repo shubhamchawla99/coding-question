@@ -1,0 +1,38 @@
+DAY-3 flood fill
+QL- https://leetcode.com/problems/flood-fill/
+
+class Solution {
+public:
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        int n = image.size();
+        int m = image[0].size();
+        int c = image[sr][sc] ;
+        int dx[4] = {0,0,1,-1};
+        int dy[4] = {1,-1,0,0};
+        vector<vector<int>> ans ;
+        int vis[n][m] ;
+        memset(vis,0,sizeof(vis));
+
+        queue<pair<int,int>> q ;
+        q.push({sr,sc});
+        vis[sr][sc]=1 ;
+        while(!q.empty()){
+            int x = q.front().first;
+            int y = q.front().second;
+            q.pop();
+            for(int i=0 ; i < 4 ; i++ ){
+                int nx= x+dx[i] ;
+                int ny = y+dy[i];
+                if(nx < 0 || ny < 0 || nx >= n || ny >=m) continue ;
+                if(image[nx][ny] == c && !vis[nx][ny] ){
+                    image[nx][ny] = color ;
+                    vis[nx][ny]=1 ;
+                    q.push({nx,ny});
+                }
+            }   
+        }
+        image[sr][sc] = color ;
+    ans = image ;
+    return ans ;
+    }
+};

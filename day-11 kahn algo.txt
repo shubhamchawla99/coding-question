@@ -1,0 +1,45 @@
+day-11 kahn algo
+
+QL - https://www.codingninjas.com/studio/problems/topological-sorting_973003?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+#include <bits/stdc++.h>
+using namespace std ;
+
+vector<int> topologicalSort(vector<vector<int>> &graph, int edges, int nodes) {
+    // Write your code here!
+    int V = nodes ;
+    int E = edges ;
+    vector<int> ans ;
+    int vis[V+1]= {0};
+    int indegree[V+1]= {0} ;
+    queue<int> q;
+    vector<int> adj[V] ;
+    for(int i=0 ; i< E ; i++){
+        int u = graph[i][0];
+        int v = graph[i][1];
+        adj[u].push_back(v);
+    }
+    for(int i=0;i<V;i++){
+        for(auto it : adj[i]){
+            indegree[it]++;
+        }       
+    }
+    for(int i=0 ; i<V ; i++){
+        if(indegree[i]==0){
+            q.push(i);
+        }
+    }
+    while(!q.empty()){
+       int node = q.front();
+       q.pop();
+       ans.push_back(node);
+       
+       for(auto it : adj[node]){
+           indegree[it]-- ;
+            if(indegree[it]==0){
+                q.push(it);
+        }
+       }
+    }
+    return ans ;
+}

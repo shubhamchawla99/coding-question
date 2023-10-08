@@ -1,0 +1,49 @@
+day-18 cheapest flights
+
+CL - https://www.codingninjas.com/studio/problems/saving-money_1171195?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+#include <bits/stdc++.h>
+using namespace std;
+
+
+int savingMoney(int n, int source, int dst, int k, vector<vector<int>> &trains)
+{   int E = trains.size();
+    // Write your code here
+    vector<pair<int,int>> adj[n];
+    for(int i=0 ; i< E; i++){
+        int u = trains[i][0]; 
+        int v = trains[i][1];
+        int cos = trains[i][2];
+        adj[u].push_back({v,cos});
+    }
+    vector<int> paisa {n};
+    for(int i=0 ; i<n ; i++){
+        paisa[i]= 1e9;
+    }
+    paisa[source]=0;
+    queue<pair<int,pair<int,int>>> q ;
+    
+    q.push({0,{source,0}}) ;
+
+    while(!q.empty()){
+        auto it = q.front()  ;
+        int step = it.first ;
+        int src = it.second.first ;
+        int cost = it.second.second;
+        q.pop() ;
+        if(step>k) { continue ; }
+
+        for(auto iter : adj[src] ){
+            int adjnode = iter.first;
+            int pc = iter.second;
+            if(pc+cost < paisa[adjnode] && step<=k){
+                paisa[adjnode]=pc+cost ;
+                q.push({step+1,{adjnode, cost + pc}});
+            }
+
+        }
+    }
+    if (paisa[dst] == 1e9)
+            return -1;
+        return paisa[dst];
+}

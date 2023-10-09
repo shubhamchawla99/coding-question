@@ -1,0 +1,45 @@
+day-19 no of ways to reach destination
+
+CQ- https://www.codingninjas.com/studio/problems/number-of-ways_8360639?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+class Solution {
+public:
+    int countPaths(int n, vector<vector<int>>& edges) {
+        int E = edges.size();
+    // Write your code here.
+    vector<int> dis (n ,INT_MAX) , ways (n , 0);
+    dis[0] = 0;
+    ways[0] = 1 ;
+    int mod = (int)(1e9 + 7);
+    vector<pair<int,int>> adj[n+1];
+    for(int i=0 ;i<E ;i++){
+        int u = edges[i][0];
+        int v = edges[i][1];
+        int wt = edges[i][2];
+        adj[u].push_back({v,wt});
+        adj[v].push_back({u,wt});
+    }
+    priority_queue<pair<int, int>,
+                       vector<pair<int, int>>, greater<pair<int, int>>> pq;
+    pq.push({0,0}) ;
+    while(!pq.empty()){
+        int dist = pq.top().first;
+        int node = pq.top().second;
+        pq.pop();
+        for(auto it : adj[node]){
+            int adjnode = it.first ;
+            int wt = it.second ;
+            if(dis[adjnode] > dist + wt){
+                dis[adjnode] = dist + wt ;
+                pq.push({ dist + wt , adjnode});
+                ways[adjnode] = ways[node];
+            } 
+            else if(dis[adjnode] == dist + wt){
+                 ways[adjnode] = (ways[adjnode] + ways[node]) % mod;
+            }
+            
+        }
+    }
+    return ways[n - 1] % mod;
+    }
+};

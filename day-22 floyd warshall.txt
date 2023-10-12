@@ -1,0 +1,29 @@
+day-22 floyd warshall
+
+CQ - https://www.codingninjas.com/studio/problems/floyd-warshall_2041979?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long 
+int floydWarshall(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+    // Write your code here.
+    vector<vector<int>> matrix (n+1 , vector<int> ( n+1 , 1e9));
+    for(int i = 0 ; i < m ; i++){
+        int u = edges[i][0];
+        int v = edges[i][1];
+        int wt = edges[i][2];
+        matrix[u][v]= wt ;
+    }
+    for(int i = 1 ; i < n+1 ; i++){
+        matrix[i][i]=0;
+    }
+    for(int k = 1 ; k < n+1 ; k++ ){
+        for(int i = 1 ; i < n+1 ; i++){
+            for(int j = 1 ; j < n+1 ; j++){
+                if(matrix[k][j]!=1e9 && matrix[j][i]!=1e9)
+                matrix[k][i] = min(matrix[k][i],matrix[k][j] + matrix[j][i]) ;
+            }
+        }
+    }
+    return matrix[src][dest] ;
+}

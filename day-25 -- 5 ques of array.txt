@@ -1,0 +1,7 @@
+day-23 --> 5 ques of array
+
+CQ - https://www.codingninjas.com/codestudio/problems/remove-duplicates-from-sorted-array_1102307?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
+
+
+
+answer easy hai isliye nahi past kr raha 
